@@ -15,7 +15,7 @@ pElem CreatList()
 }
 
 //头部插入
-void insertElem(pElem head ,int data)
+void insertElem(pElem head ,int time, char text[])
 {
 	if(head == NULL){
 		printf("The list is empty.\n");
@@ -25,8 +25,10 @@ void insertElem(pElem head ,int data)
 	if(tmpHead->next == NULL){
 		/*当双向链表只有一个头节点时*/
 		pElem addition = (pElem)malloc(sizeof(eElem));
-		assert(addition != NULL)	;
-		addition->data = data;
+		assert(addition != NULL);
+		addition->time = time;
+		strcpy(addition->text,text);		
+
 		addition->next = tmpHead->next;
 		tmpHead->next = addition;
 		addition->front = tmpHead; 
@@ -35,20 +37,24 @@ void insertElem(pElem head ,int data)
 		/*当双向链表不只一个头节点时*/
 		pElem addition = (pElem)malloc(sizeof(eElem));
 		assert(addition != NULL);
-		addition->data = data;
+		addition->time = time;
+		strcpy(addition->text,text);
+
 		tmpHead->next->front = addition;
 		addition->front = tmpHead;
 		addition->next = tmpHead->next;
 		tmpHead->next = addition;
 	}
 }
-void insertElemTail(pElem head, int data){//尾插
+void insertElemTail(pElem head, int time, char text[]){//尾插
 	pElem tmpHead = head;
 	while(head->next != NULL){
 		head = head->next;
 	}
 	pElem addition = (pElem)malloc(sizeof(eElem));
-	addition->data = data;
+	addition->time = time;
+	strcpy(addition->text,text);	
+		
 	addition->next = head->next;
 	addition->front = head;
 	head->next = addition;
@@ -62,17 +68,20 @@ void IlluList(pElem head){
 	pElem tmpHead = head;
 	while(tmpHead->next != NULL){
 		tmpHead = tmpHead->next;
-		printf("%d\n",tmpHead->data);
+		printf("time = %d\n",tmpHead->time);
+		printf("text = %s\n",tmpHead->text);
 	}
 	while(tmpHead->front->front != NULL){
-		printf("%d\n",tmpHead->data);
+		printf("time = %d\n",tmpHead->time);
+		printf("text = %s\n",tmpHead->text);
 		tmpHead = tmpHead->front;
 	}	
-	printf("%d\n",tmpHead->data);
+	printf("time = %d\n",tmpHead->time);
+	printf("text = %s\n",tmpHead->text);
 	return;
 }
 
-void DeleteElem(pElem head,int data)
+void DeleteElem(pElem head,char text[])
 {
 	if(head == NULL){
 		printf("The list is empty.\n");
@@ -81,7 +90,7 @@ void DeleteElem(pElem head,int data)
 	pElem tmpHead = head;
 	while(tmpHead->next != NULL){
 		tmpHead = tmpHead->next;
-		if(tmpHead->data == data){
+		if(strcmp(tmpHead->text, text) == 0){
 			tmpHead->front->next = tmpHead->next;
 			tmpHead->next->front = tmpHead->front;
 			break;

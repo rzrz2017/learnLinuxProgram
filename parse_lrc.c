@@ -15,8 +15,8 @@ int main(int argc, char *argv[]){
 	char buff[255] = {0};
 	char c;
 
-	LinkList* list;
-	list = create(0);
+	pElem list;
+	list = CreatList();
 	
 	fp = fopen(file_path,"r");
 
@@ -24,36 +24,21 @@ int main(int argc, char *argv[]){
 	printf("sizeof: %d\n",sizeof(buff));
 	
 	int j = 0;
-	LinkList* in;
+	int time = 0;
+	char text[256] = {0};
+	
 	while(fgets(buff, sizeof(buff), (FILE*) fp)){
 		printf("buff = %s\n", buff);
-		in = insert(list, j++);
-		parse(buff, &in->time, in->text);
+		parse(buff, &time, text);
+		insertElemTail(list, time, text);
 	}
 
 	printf("strlen(buff) = %d\n",strlen(buff));
 
-	printf("便利链表:\n");
-	LinkList *t = list;
-	while(1){
-		printf("time = %d\n",t->time);
-		printf("text = %s\n",t->text);
-		if(t -> next == NULL){
-			break;
-		}
-		t = t->next;	
-	}
+	printf("------便利链表:------\n");
+	IlluList(list);	
 
 	fclose(fp);
-
-	printf("\n---------测试双向链表---------\n");
-	pElem list2 = CreatList();
-	int k = 0;
-	for(k = 0;k < 10; k++){
-		insertElemTail(list2, k);	
-	}	
-	IlluList(list2);
-
 	return 0;
 }
 
